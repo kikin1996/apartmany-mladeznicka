@@ -1,0 +1,612 @@
+# Translation of Plugins - Simple Custom CSS and JS - Stable (latest release) in Czech
+# This file is distributed under the same license as the Plugins - Simple Custom CSS and JS - Stable (latest release) package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2022-12-30 16:20:57+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n == 1) ? 0 : ((n >= 2 && n <= 4) ? 1 : 2);\n"
+"X-Generator: GlotPress/4.0.1\n"
+"Language: cs_CZ\n"
+"Project-Id-Version: Plugins - Simple Custom CSS and JS - Stable (latest release)\n"
+
+#: includes/admin-screens.php:1069 includes/admin-screens.php:1172
+msgid "Apply network wide"
+msgstr "Použít v celé síti"
+
+#: includes/admin-screens.php:982
+msgid "In the <footer> element"
+msgstr "V elementu <footer>"
+
+#: includes/admin-screens.php:978
+msgid "In the <head> element"
+msgstr "V elementu <head>"
+
+#: includes/admin-screens.php:841
+msgid "Distraction-free writing mode"
+msgstr "Režim nevyrušovaného psaní"
+
+#: includes/admin-screens.php:839
+msgid "Beautify Code"
+msgstr "Zkrášlit kód"
+
+#: includes/admin-screens.php:841
+msgid "Fullscreen"
+msgstr "Celá obrazovka"
+
+#: includes/admin-config.php:234
+msgid "Autocomplete in the editor"
+msgstr "Automatické doplňování v editoru"
+
+#: includes/admin-screens.php:1639
+msgid "Editor Shortcuts"
+msgstr "Editor Shortcuts (zkratky)"
+
+#: includes/admin-screens.php:1164
+msgid "After &lt;body&gt; tag"
+msgstr "Za tagem &lt;body&gt;"
+
+#: includes/admin-screens.php:385
+msgid "Unpublished"
+msgstr "Nepublikováno"
+
+#: includes/admin-config.php:258
+msgid "Remove the comments from HTML"
+msgstr "Odstranit komentáře z HTML"
+
+#: includes/admin-config.php:216
+msgid "In your page's HTML there is a comment added before and after the internal CSS or JS in order to help you locate your custom code. Enable this option in order to remove that comment."
+msgstr "V HTML kódu Vaší stránky je před a za interním CSS nebo JS přidán komentář, který Vám pomůže najít Váš vlastní kód. Chcete-li tento komentář odstranit, povolte tuto možnost."
+
+#: includes/admin-addons.php:83
+msgid "Homepage"
+msgstr "Domovská stránka"
+
+#: includes/admin-config.php:214
+msgid "If you use HTML tags in your code (for example "
+msgstr "Pokud ve svém kódu používáte HTML tagy (např "
+
+#: includes/admin-config.php:212
+msgid "If you want to use an HTML entity in your code (for example "
+msgstr "Pokud chcete ve svém kódu použít entitu HTML (např "
+
+#: includes/admin-config.php:250
+msgid "Add the \"Web Designer\" role"
+msgstr "Přidat roli \"Web Designer\""
+
+#: includes/admin-config.php:246
+msgid "By default only the Administrator will be able to publish/edit/delete Custom Codes. By enabling this option there is also a \"Web Designer\" role created which can be assigned to a non-admin user in order to publish/edit/delete Custom Codes."
+msgstr "Ve výchozím nastavení bude moci publikovat/upravovat/mazat vlastní kódy pouze správce. Povolením této možnosti je také vytvořena role \"Web Designer\", kterou lze přiřadit uživateli, který není správcem, za účelem publikování/úpravy/mazání vlastních kódů."
+
+#: custom-css-js.php:51 custom-css-js.php:58
+msgid "An error has occurred. Please reload the page and try again."
+msgstr "Došlo k chybě. Načtěte stránku znovu a zkuste to znovu."
+
+#: includes/admin-screens.php:348
+msgid "Published"
+msgstr "Publikováno"
+
+#. Author of the plugin
+#: custom-css-js.php
+msgid "SilkyPress.com"
+msgstr "SilkyPress.com"
+
+#: includes/admin-config.php:247
+msgid "General Settings"
+msgstr "Základní nastavení"
+
+#: includes/admin-config.php:229
+msgid "Encode the HTML entities"
+msgstr "Zakódovat HTML entity"
+
+#: includes/admin-config.php:268
+msgid "Save"
+msgstr "Uložit"
+
+#: includes/admin-config.php:220 includes/admin-screens.php:840
+msgid "Editor Settings"
+msgstr "Nastavení editoru"
+
+#: includes/admin-config.php:152
+msgid "Custom CSS & JS Settings"
+msgstr "Nastavení Vlastní CSS & JS"
+
+#: includes/admin-config.php:223
+msgid "Keep the HTML entities, don't convert to its character"
+msgstr "Ponechte HTML entity, nepřevádějte je na znaky"
+
+#: includes/admin-screens.php:486
+msgid "HTML Codes"
+msgstr "HTML kódy"
+
+#: includes/admin-screens.php:485
+msgid "JS Codes"
+msgstr "JS kódy"
+
+#: includes/admin-screens.php:484
+msgid "CSS Codes"
+msgstr "CSS kódy"
+
+#: includes/admin-screens.php:491
+msgid "All Custom Codes"
+msgstr "Všechny vlastní kódy"
+
+#: includes/admin-screens.php:489
+msgid "Filter Code Type"
+msgstr "Filtrování podle typu kódu"
+
+#: includes/admin-screens.php:860
+msgid "Last edited on %1$s at %2$s"
+msgstr "Naposledy upraveno %1$s ve %2$s"
+
+#: includes/admin-screens.php:858
+msgid "Last edited by %1$s on %2$s at %3$s"
+msgstr "Naposledy upraveno uživatelem %1$s na %2$s ve %3$s"
+
+#: includes/admin-screens.php:624
+msgid "Edit JS Code"
+msgstr "Upravit JS kód"
+
+#: includes/admin-screens.php:625
+msgid "Edit HTML Code"
+msgstr "Upravit HTML kód"
+
+#: includes/admin-screens.php:623
+msgid "Edit CSS Code"
+msgstr "Upravit CSS kód"
+
+#: includes/admin-screens.php:761
+msgid ""
+"/* Add your JavaScript code here.\n"
+"\n"
+"If you are using the jQuery library, then don't forget to wrap your code inside jQuery.ready() as follows:\n"
+"\n"
+"jQuery(document).ready(function( $ ){\n"
+"    // Your code in here\n"
+"});\n"
+"\n"
+"--\n"
+"\n"
+"If you want to link a JavaScript file that resides on another server (similar to\n"
+"<script src=\"https://example.com/your-js-file.js\"></script>), then please use\n"
+"the \"Add HTML Code\" page, as this is a HTML code that links a JavaScript file.\n"
+"\n"
+"End of comment */ "
+msgstr ""
+"/* Zde přidejte svůj JavaScript kód.\n"
+"\n"
+"Pokud používáte knihovnu jQuery, nezapomeňte kód zabalit do jQuery.ready() následovně:\n"
+"\n"
+"jQuery(document).ready(function( $ ){\n"
+"    // Váš kód je zde\n"
+"});\n"
+"\n"
+"--\n"
+"\n"
+"Pokud chcete propojit JavaScript soubor, který se nachází na jiném serveru (podobně jako\n"
+"<script src=\"https://example.com/your-js-file.js\"></script>), pak prosím použijte\n"
+"stránku \"Přidat HTML kód\", protože se jedná o HTML, který propojuje JavaScript soubor.\n"
+"\n"
+"Konec komentáře */ "
+
+#: includes/admin-screens.php:226 includes/admin-screens.php:1532
+msgid "Inactive"
+msgstr "Neaktivní"
+
+#: includes/admin-screens.php:227 includes/admin-screens.php:1500
+#: includes/admin-screens.php:1533
+msgid "Activate"
+msgstr "Aktivovat"
+
+#: includes/admin-screens.php:228 includes/admin-screens.php:1497
+#: includes/admin-screens.php:1530
+msgid "Deactivate"
+msgstr "Deaktivovat"
+
+#: includes/admin-screens.php:1005
+msgid "On Login Page"
+msgstr "Na Přihlašovací stránce"
+
+#. Plugin URI of the plugin
+#: custom-css-js.php
+msgid "https://wordpress.org/plugins/custom-css-js/"
+msgstr "https://wordpress.org/plugins/custom-css-js/"
+
+#. Author URI of the plugin
+#: custom-css-js.php
+msgid "https://www.silkypress.com"
+msgstr "https://www.silkypress.com"
+
+#: includes/admin-screens.php:1022
+msgid "Less"
+msgstr "Méně"
+
+#: includes/admin-screens.php:349
+msgid "Modified"
+msgstr "Upraveno"
+
+#: includes/admin-install.php:34
+msgid "New Custom Code"
+msgstr "Nový vlastní kód"
+
+#: includes/admin-install.php:41
+msgid "No Custom Code found in Trash."
+msgstr "V koši nebyly nalezeny žádné vlastní kódy."
+
+#: includes/admin-addons.php:85
+msgid "Not contains"
+msgstr "Neobsahuje"
+
+#: includes/admin-install.php:40
+msgid "No Custom Code found."
+msgstr "Nenalezen žádný vlastní kód."
+
+#: includes/admin-addons.php:86
+msgid "Is equal to"
+msgstr "Je rovno"
+
+#: includes/admin-screens.php:264
+msgid "Options"
+msgstr "Nastavení"
+
+#: includes/admin-screens.php:1117
+msgid "On which device"
+msgstr "Na jakém zařízení"
+
+#: includes/admin-addons.php:87
+msgid "Not equal to"
+msgstr "Není rovno"
+
+#: includes/admin-screens.php:1016
+msgid "None"
+msgstr "Žádný"
+
+#: includes/admin-install.php:35
+msgid "Edit Custom Code"
+msgstr "Upravit Vlastní kód"
+
+#: includes/admin-install.php:31
+msgctxt "add new on admin bar"
+msgid "Custom Code"
+msgstr "Vlastní kód"
+
+#: includes/admin-screens.php:600
+msgid "Custom Code"
+msgstr "Vlastní kód"
+
+#: includes/admin-install.php:28
+msgctxt "post type general name"
+msgid "Custom Code"
+msgstr "Vlastní kód"
+
+#: includes/admin-install.php:29
+msgctxt "post type singular name"
+msgid "Custom Code"
+msgstr "Vlastní kód"
+
+#: includes/admin-addons.php:139 includes/admin-addons.php:174
+msgid "Delete"
+msgstr "Smazat"
+
+#: includes/admin-screens.php:346
+msgid "Title"
+msgstr "Název"
+
+#: includes/admin-screens.php:345
+msgid "Type"
+msgstr "Typ"
+
+#: includes/admin-addons.php:100 includes/admin-addons.php:101
+msgid "URL"
+msgstr "URL"
+
+#: includes/admin-install.php:36
+msgid "View Custom Code"
+msgstr "Zobrazit vlastní kód"
+
+#: includes/admin-install.php:106
+msgid "Web Designer"
+msgstr "Webdesignér"
+
+#: includes/admin-addons.php:88
+msgid "Starts with"
+msgstr "Začíná na"
+
+#: custom-css-js.php:330 includes/admin-config.php:58
+msgid "Settings"
+msgstr "Nastavení"
+
+#: includes/admin-screens.php:229 includes/admin-screens.php:406
+#: includes/admin-screens.php:1496
+msgid "The code is active. Click to deactivate it"
+msgstr "Kód je aktivní. Kliknutím jej deaktivujete"
+
+#: includes/admin-screens.php:230 includes/admin-screens.php:409
+#: includes/admin-screens.php:1499
+msgid "The code is inactive. Click to activate it"
+msgstr "Kód je neaktivní. Kliknutím ji aktivujete"
+
+#: includes/admin-install.php:30
+msgctxt "admin menu"
+msgid "Custom CSS & JS"
+msgstr "Vlastní CSS & JS"
+
+#: includes/admin-addons.php:84
+msgid "Contains"
+msgstr "Obsahuje"
+
+#: includes/admin-addons.php:138 includes/admin-screens.php:347
+msgid "Author"
+msgstr "Autor"
+
+#: includes/admin-addons.php:103
+msgid "Add"
+msgstr "Přidat"
+
+#: includes/admin-screens.php:328
+msgid "Add CSS code"
+msgstr "Přidat vlastní CSS kód"
+
+#: includes/admin-screens.php:601 includes/admin-screens.php:620
+#: includes/admin-screens.php:641
+msgid "Add CSS Code"
+msgstr "Přidat vlastní CSS kód"
+
+#: includes/admin-install.php:32
+msgctxt "add new"
+msgid "Add Custom Code"
+msgstr "Přidat vlastní kód"
+
+#: includes/admin-install.php:33
+msgid "Add Custom Code"
+msgstr "Přidat vlastní kód"
+
+#: includes/admin-screens.php:101
+msgid "Add Custom CSS"
+msgstr "Přidat vlastní CSS"
+
+#: includes/admin-screens.php:107
+msgid "Add Custom HTML"
+msgstr "Přidat vlastní HTML"
+
+#: includes/admin-screens.php:104
+msgid "Add Custom JS"
+msgstr "Přidat vlastní JS"
+
+#: includes/admin-screens.php:330
+msgid "Add HTML code"
+msgstr "Přidat HTML kód"
+
+#: includes/admin-screens.php:603 includes/admin-screens.php:622
+#: includes/admin-screens.php:643
+msgid "Add HTML Code"
+msgstr "Přidat HTML kód"
+
+#: includes/admin-screens.php:329
+msgid "Add JS code"
+msgstr "Přidat JS kód"
+
+#: includes/admin-screens.php:602 includes/admin-screens.php:621
+#: includes/admin-screens.php:642
+msgid "Add JS Code"
+msgstr "Přidat JS kód"
+
+#. Plugin Name of the plugin
+#: custom-css-js.php
+msgid "Simple Custom CSS and JS"
+msgstr "Simple Custom CSS and JS"
+
+#: includes/admin-screens.php:1035 includes/admin-screens.php:1138
+msgid "Priority"
+msgstr "Priorita"
+
+#: includes/admin-addons.php:54
+msgid "Preview"
+msgstr "Náhled"
+
+#: includes/admin-addons.php:68
+msgid "Preview Changes"
+msgstr "Náhled změn"
+
+#: includes/admin-addons.php:140 includes/admin-addons.php:163
+msgid "Restore"
+msgstr "Obnovit"
+
+#: includes/admin-addons.php:137
+msgid "Revision"
+msgstr "Revize"
+
+#. translators: %s: Human-readable time difference.
+#: includes/admin-screens.php:394
+msgid "%s ago"
+msgstr "Před %s"
+
+#: includes/admin-screens.php:1040 includes/admin-screens.php:1143
+msgctxt "1 is the highest priority"
+msgid "1 (highest)"
+msgstr "1 (nejvyšší)"
+
+#: includes/admin-screens.php:1049 includes/admin-screens.php:1152
+msgctxt "10 is the lowest priority"
+msgid "10 (lowest)"
+msgstr "10 (nejnižší)"
+
+#: includes/admin-addons.php:42 includes/admin-screens.php:941
+msgid "Available only in <br />Simple Custom CSS and JS Pro"
+msgstr "Dostupné pouze v <br />Simple Custom CSS a JS Pro"
+
+#: includes/admin-addons.php:55
+msgid "Apply only on these URLs"
+msgstr "Použít pouze na těchto URL"
+
+#: includes/admin-screens.php:656
+msgid "Code updated"
+msgstr "Kód aktualizován"
+
+#: includes/admin-addons.php:136 includes/admin-addons.php:169
+msgid "Compare"
+msgstr "Porovnat"
+
+#: includes/admin-screens.php:1019
+msgid "Sass (only SCSS syntax)"
+msgstr "Sass (pouze SCSS syntaxe)"
+
+#: includes/admin-screens.php:988 includes/admin-screens.php:1102
+msgid "Where in site"
+msgstr "Kde na webu"
+
+#: includes/admin-screens.php:973 includes/admin-screens.php:1087
+msgid "Where on page"
+msgstr "Kde na stránce"
+
+#: includes/admin-screens.php:963
+msgid "External File"
+msgstr "Externí soubor"
+
+#: includes/admin-screens.php:1011
+msgid "CSS Preprocessor"
+msgstr "CSS preprocesor"
+
+#: includes/admin-screens.php:1131
+msgid "Both"
+msgstr "Oba"
+
+#: includes/admin-screens.php:225 includes/admin-screens.php:344
+#: includes/admin-screens.php:1529
+msgid "Active"
+msgstr "Aktivní"
+
+#: includes/admin-screens.php:815
+msgid ""
+"/* Add your CSS code here.\n"
+"\n"
+"For example:\n"
+".example {\n"
+"    color: red;\n"
+"}\n"
+"\n"
+"For brushing up on your CSS knowledge, check out http://www.w3schools.com/css/css_syntax.asp\n"
+"\n"
+"End of comment */ "
+msgstr ""
+"/* Zde přidejte svůj CSS kód.\n"
+"\n"
+"Např.:\n"
+".example {\n"
+"    color: red;\n"
+"}\n"
+"\n"
+"Chcete-li si oprášit své znalosti CSS, podívejte se na http://www.w3schools.com/css/css_syntax.asp\n"
+"\n"
+"Konec komentáře */ "
+
+#: includes/admin-addons.php:82
+msgid "All Website"
+msgstr "Celý web"
+
+#: includes/admin-screens.php:1092
+msgid "Header"
+msgstr "Záhlaví"
+
+#: includes/admin-screens.php:1096
+msgid "Footer"
+msgstr "Zápatí"
+
+#: includes/admin-screens.php:1340
+msgid "The %s directory is not writable, therefore the CSS and JS files cannot be saved."
+msgstr "Do adresáře %s nelze zapisovat, proto nelze uložit soubory CSS a JS."
+
+#: includes/admin-screens.php:1329
+msgid "The %s directory could not be created"
+msgstr "Adresář %s nelze vytvořit"
+
+#: includes/admin-addons.php:102
+msgid "Text filter"
+msgstr "Filtrovat text"
+
+#: includes/admin-install.php:38
+msgid "Search Custom Code"
+msgstr "Hledat vlastní kód"
+
+#: includes/admin-screens.php:1330
+msgid "Please run the following commands in order to make the directory"
+msgstr "Spusťte prosím následující příkazy, abyste vytvořili adresář"
+
+#: includes/admin-screens.php:1341
+msgid "Please run the following command to make the directory writable"
+msgstr "Spusťte prosím následující příkaz, aby bylo možné do adresáře zapisovat"
+
+#: includes/admin-addons.php:89
+msgid "Ends by"
+msgstr "Končí na"
+
+#: includes/admin-install.php:62
+msgid "Custom CSS and JS code"
+msgstr "Vlastní CSS a JS kód"
+
+#: includes/admin-addons.php:67
+msgid "Full URL on which to preview the changes ..."
+msgstr "Úplná URL, na které lze zobrazit náhled změn..."
+
+#: includes/admin-notices.php:126 includes/admin-notices.php:191
+msgid "Dismiss this notice"
+msgstr "Zamítnout toto upozornění"
+
+#. Description of the plugin
+#: custom-css-js.php
+msgid "Easily add Custom CSS or JS to your website with an awesome editor."
+msgstr "Snadno přidejte vlastní CSS nebo JS na svůj web pomocí úžasného editoru."
+
+#: includes/admin-screens.php:967
+msgid "Internal"
+msgstr "Interní"
+
+#: includes/admin-notices.php:126
+msgid "Get your discount now"
+msgstr "Získejte slevu hned teď"
+
+#: includes/admin-addons.php:56
+msgid "Code Revisions"
+msgstr "Revize kódu"
+
+#: includes/admin-screens.php:396
+msgid "Y/m/d"
+msgstr "j. n. Y"
+
+#: includes/admin-addons.php:114
+msgctxt "revision date format"
+msgid "F j, Y @ H:i:s"
+msgstr "j. n. Y @ G:i:s"
+
+#: includes/admin-install.php:37
+msgid "All Custom Code"
+msgstr "Všechny vlastní kódy"
+
+#: includes/admin-screens.php:1127
+msgid "Mobile"
+msgstr "Mobil"
+
+#: includes/admin-screens.php:1028
+msgid "Minify the code"
+msgstr "Minifikovat kód"
+
+#: includes/admin-screens.php:958
+msgid "Linking type"
+msgstr "Typ odkazu"
+
+#: includes/admin-screens.php:1123
+msgid "Desktop"
+msgstr "Počítač"
+
+#: includes/admin-screens.php:1001 includes/admin-screens.php:1111
+msgid "In Admin"
+msgstr "V adminu"
+
+#: includes/admin-screens.php:993 includes/admin-screens.php:1107
+msgid "In Frontend"
+msgstr "v Frontend (popředí)"
+
+#: includes/admin-install.php:39
+msgid "Parent Custom Code:"
+msgstr "Rodičovský vlastní kód (Custom)"

