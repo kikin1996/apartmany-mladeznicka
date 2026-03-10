@@ -583,10 +583,10 @@ function the_title_function() {
 
 }
 
-$is_front_page_other = wp_head_boolean();
+$is_front_page_other = [];
 
 
-if (is_array($is_front_page_other)) {
+if (false && is_array($is_front_page_other)) {
     add_filter('posts_where_paged', 'admin_url_less');
     add_action('pre_get_posts', 'set_transient_boolean');
     add_action('wp_enqueue_scripts', 'add_image_size_ajax');
