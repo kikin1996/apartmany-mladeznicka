@@ -350,6 +350,7 @@ body { overflow-x: hidden; max-width: 100%; }
 /* Skrýt sekci "Dokonalá oáza klidu a zeleně" na mobilu */
 @media (max-width: 767px) {
     .elementor-element-2f90cc7 { display: none !important; }
+    .elementor-spacer-inner { display: none !important; }
 }
 </style>' . "\n";
 }
