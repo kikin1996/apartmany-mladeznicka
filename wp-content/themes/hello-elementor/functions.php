@@ -366,6 +366,94 @@ body { overflow-x: hidden; max-width: 100%; }
 }
 add_action('wp_head', 'apartmany_mobile_fix', 5);
 
+// ── Šipky pro Swiper carousely na mobilu ────────────────────────────────────
+function apartmany_carousel_arrows() {
+    if (!is_front_page() && !is_home()) return;
+    ?>
+<style>
+.apartmany-carousel-wrap { position: relative; }
+.apartmany-carousel-arrow {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(0,0,0,0.45);
+    color: #fff;
+    border: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    -webkit-tap-highlight-color: transparent;
+}
+.apartmany-carousel-arrow.prev { left: 6px; }
+.apartmany-carousel-arrow.next { right: 6px; }
+@media (max-width: 767px) {
+    .apartmany-carousel-arrow { display: flex; }
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var carouselIds = ['6de25bb', '66ad785'];
+    carouselIds.forEach(function(id) {
+        var widget = document.querySelector('.elementor-element-' + id);
+        if (!widget) return;
+        var swiper = widget.querySelector('.e-n-carousel.swiper');
+        if (!swiper) return;
+
+        // Wrap
+        var wrap = document.createElement('div');
+        wrap.className = 'apartmany-carousel-wrap';
+        swiper.parentNode.insertBefore(wrap, swiper);
+        wrap.appendChild(swiper);
+
+        // Šipky
+        var prev = document.createElement('button');
+        prev.className = 'apartmany-carousel-arrow prev';
+        prev.setAttribute('aria-label', 'Předchozí');
+        prev.innerHTML = '&#8249;';
+
+        var next = document.createElement('button');
+        next.className = 'apartmany-carousel-arrow next';
+        next.setAttribute('aria-label', 'Další');
+        next.innerHTML = '&#8250;';
+
+        wrap.appendChild(prev);
+        wrap.appendChild(next);
+
+        // Získej Swiper instanci (Elementor ji ukládá do .swiper.swiper)
+        function getSwiper() {
+            return swiper.swiper || (swiper.querySelector('.swiper') || {}).swiper || null;
+        }
+
+        prev.addEventListener('click', function() {
+            var s = getSwiper();
+            if (s) s.slidePrev();
+            else {
+                // fallback – klikni na aktivní slide a scroll
+                var slides = swiper.querySelectorAll('.swiper-slide');
+                var active = swiper.querySelector('.swiper-slide-active');
+                var idx = Array.from(slides).indexOf(active);
+                if (idx > 0) slides[idx-1].click();
+            }
+        });
+
+        next.addEventListener('click', function() {
+            var s = getSwiper();
+            if (s) s.slideNext();
+        });
+    });
+});
+</script>
+    <?php
+}
+add_action('wp_footer', 'apartmany_carousel_arrows');
+
 // Byty Gallery Modal
 function byty_modal_enqueue() {
     $pages = ['1-patro', '2-patro', '3-patro'];
