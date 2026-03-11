@@ -283,6 +283,73 @@ function hello_elementor_get_theme_notifications(): ThemeNotifications {
 
 hello_elementor_get_theme_notifications();
 
+// ── Mobilní CSS fix – přetékání obsahu ─────────────────────────────────────
+function apartmany_mobile_fix() {
+    echo '<style id="apartmany-mobile-fix">
+/* Zamezit horizontálnímu přetékání na všech zařízeních */
+html { overflow-x: hidden; }
+body { overflow-x: hidden; max-width: 100%; }
+
+/* Elementor kontejnery – nesmí přesáhnout viewport */
+.elementor-section,
+.elementor-container,
+.e-con,
+.e-con-inner {
+    max-width: 100% !important;
+    box-sizing: border-box;
+}
+
+@media (max-width: 767px) {
+    /* Oprava fixního backgroundu na mobilu */
+    [style*="background-position"] {
+        background-position: center center !important;
+        background-size: cover !important;
+    }
+
+    /* Absolutně pozicované dekorativní prvky nepřesahují */
+    .elementor-element[style*="position:absolute"],
+    .elementor-element[style*="position: absolute"] {
+        max-width: 100vw;
+        overflow: hidden;
+    }
+
+    /* Textové bloky – word wrap */
+    .elementor-heading-title,
+    .elementor-widget-text-editor p,
+    h1, h2, h3, h4 {
+        overflow-wrap: break-word;
+        word-break: break-word;
+        hyphens: auto;
+    }
+
+    /* Obrázky nepřesahují rodiče */
+    img { max-width: 100%; height: auto; }
+
+    /* Elementor hero sekce – min-height pro mobil */
+    .elementor-element[style*="min-height:800px"],
+    .elementor-element[style*="min-height: 800px"] {
+        min-height: 70vw !important;
+    }
+
+    /* Navigace */
+    .site-header { overflow: hidden; }
+
+    /* Nadpisy v hero – zmenšit font pokud přetékají */
+    .elementor-widget-heading .elementor-heading-title {
+        font-size: clamp(1.4rem, 7vw, 3rem) !important;
+        line-height: 1.2 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .elementor-widget-heading .elementor-heading-title {
+        font-size: clamp(1.2rem, 6vw, 2rem) !important;
+    }
+}
+</style>' . "\n";
+}
+add_action('wp_head', 'apartmany_mobile_fix', 5);
+
 // Byty Gallery Modal
 function byty_modal_enqueue() {
     $pages = ['1-patro', '2-patro', '3-patro'];
