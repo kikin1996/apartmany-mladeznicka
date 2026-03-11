@@ -361,6 +361,9 @@ body { overflow-x: hidden; max-width: 100%; }
     /* Pozadí pozadi1.png – skrýt obě instance */
     .elementor-element-3d4110c,
     .elementor-element-3f6fff1 { display: none !important; }
+
+    /* Carousel 66ad785 – skrýt na mobilu */
+    .elementor-element-66ad785 { display: none !important; }
 }
 </style>' . "\n";
 }
