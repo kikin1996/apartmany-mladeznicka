@@ -353,9 +353,14 @@ body { overflow-x: hidden; max-width: 100%; }
     .elementor-spacer-inner { display: none !important; }
 
     /* Kytka flower_01 – posun výše na mobilu */
-    .elementor-element-a753450 {
-        top: 320px !important;
-    }
+    .elementor-element-a753450 { top: 320px !important; }
+
+    /* Kytka flower_02 – skrýt */
+    .elementor-element-b1befaf { display: none !important; }
+
+    /* Pozadí pozadi1.png – skrýt obě instance */
+    .elementor-element-3d4110c,
+    .elementor-element-3f6fff1 { display: none !important; }
 }
 </style>' . "\n";
 }
