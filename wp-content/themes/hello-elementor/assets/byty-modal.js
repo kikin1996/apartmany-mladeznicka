@@ -40,6 +40,7 @@
                   <span id="byty-gallery-counter"></span>
                 </div>
                 <div id="byty-gallery-thumbs"></div>
+                <div id="byty-gallery-dots"></div>
               </div>
               <div id="byty-inline-info">
                 <div id="byty-info-badge">k dispozici</div>
@@ -55,16 +56,32 @@
               </div>
             </div>`;
 
-        // Insert after the hotspot widget's parent container
         hotspotWidget.closest('.elementor-widget-ucaddon_hotspot').closest('.e-con, .elementor-section').after(html);
 
         $('#byty-nav-prev').on('click', function() { showPhoto(currentIndex - 1); });
         $('#byty-nav-next').on('click', function() { showPhoto(currentIndex + 1); });
 
+        // Klávesnice
         $(document).on('keydown', function(e) {
             if (e.key === 'ArrowLeft') showPhoto(currentIndex - 1);
             if (e.key === 'ArrowRight') showPhoto(currentIndex + 1);
         });
+
+        // Swipe podpora pro dotykové displeje
+        var touchStartX = 0;
+        var touchStartY = 0;
+        var mainEl = document.getElementById('byty-gallery-main');
+        mainEl.addEventListener('touchstart', function(e) {
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        mainEl.addEventListener('touchend', function(e) {
+            var dx = e.changedTouches[0].clientX - touchStartX;
+            var dy = e.changedTouches[0].clientY - touchStartY;
+            if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+                showPhoto(dx < 0 ? currentIndex + 1 : currentIndex - 1);
+            }
+        }, { passive: true });
     }
 
     function showPhoto(idx) {
@@ -72,9 +89,12 @@
         currentIndex = (idx + currentPhotos.length) % currentPhotos.length;
         $('#byty-main-img').attr('src', currentPhotos[currentIndex]);
         $('#byty-gallery-counter').text((currentIndex + 1) + ' / ' + currentPhotos.length);
+        // Thumbnails
         $('#byty-gallery-thumbs img').removeClass('active').eq(currentIndex).addClass('active');
         var thumb = $('#byty-gallery-thumbs img')[currentIndex];
         if (thumb) thumb.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+        // Dots
+        $('#byty-gallery-dots .byty-dot').removeClass('active').eq(currentIndex).addClass('active');
     }
 
     function showApartment(num) {
@@ -117,6 +137,16 @@
         });
         $('#byty-gallery-thumbs').html(thumbsHtml);
         $('#byty-gallery-thumbs img').on('click', function() {
+            showPhoto(parseInt($(this).data('idx')));
+        });
+
+        // Build dots (pro mobilní zobrazení)
+        var dotsHtml = '';
+        currentPhotos.forEach(function(_, i) {
+            dotsHtml += '<span class="byty-dot" data-idx="' + i + '"></span>';
+        });
+        $('#byty-gallery-dots').html(dotsHtml);
+        $('#byty-gallery-dots .byty-dot').on('click', function() {
             showPhoto(parseInt($(this).data('idx')));
         });
 
