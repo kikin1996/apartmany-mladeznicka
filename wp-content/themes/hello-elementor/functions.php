@@ -286,31 +286,18 @@ hello_elementor_get_theme_notifications();
 // ── Mobilní CSS fix – přetékání obsahu ─────────────────────────────────────
 function apartmany_mobile_fix() {
     echo '<style id="apartmany-mobile-fix">
-/* Zamezit horizontálnímu přetékání na všech zařízeních */
+/* Zamezit horizontálnímu přetékání – jen overflow, bez ovlivnění layoutu */
 html { overflow-x: hidden; }
-body { overflow-x: hidden; max-width: 100%; }
-
-/* Elementor kontejnery – nesmí přesáhnout viewport */
-.elementor-section,
-.elementor-container,
-.e-con,
-.e-con-inner {
-    max-width: 100% !important;
-    box-sizing: border-box;
-}
+body { overflow-x: hidden; }
 
 @media (max-width: 767px) {
-    /* Oprava fixního backgroundu na mobilu */
-    [style*="background-position"] {
-        background-position: center center !important;
-        background-size: cover !important;
-    }
-
-    /* Absolutně pozicované dekorativní prvky nepřesahují */
-    .elementor-element[style*="position:absolute"],
-    .elementor-element[style*="position: absolute"] {
-        max-width: 100vw;
-        overflow: hidden;
+    /* Kontejnery nepřesahují viewport pouze na mobilu */
+    .elementor-section,
+    .elementor-container,
+    .e-con,
+    .e-con-inner {
+        max-width: 100% !important;
+        box-sizing: border-box;
     }
 
     /* Textové bloky – word wrap */
@@ -319,32 +306,13 @@ body { overflow-x: hidden; max-width: 100%; }
     h1, h2, h3, h4 {
         overflow-wrap: break-word;
         word-break: break-word;
-        hyphens: auto;
     }
 
     /* Obrázky nepřesahují rodiče */
     img { max-width: 100%; height: auto; }
 
-    /* Elementor hero sekce – min-height pro mobil */
-    .elementor-element[style*="min-height:800px"],
-    .elementor-element[style*="min-height: 800px"] {
-        min-height: 70vw !important;
-    }
-
     /* Navigace */
     .site-header { overflow: hidden; }
-
-    /* Nadpisy v hero – zmenšit font pokud přetékají */
-    .elementor-widget-heading .elementor-heading-title {
-        font-size: clamp(1.4rem, 7vw, 3rem) !important;
-        line-height: 1.2 !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .elementor-widget-heading .elementor-heading-title {
-        font-size: clamp(1.2rem, 6vw, 2rem) !important;
-    }
 }
 
 /* Skrýt sekci "Dokonalá oáza klidu a zeleně" na mobilu */
