@@ -351,6 +351,11 @@ body { overflow-x: hidden; max-width: 100%; }
 @media (max-width: 767px) {
     .elementor-element-2f90cc7 { display: none !important; }
     .elementor-spacer-inner { display: none !important; }
+
+    /* Kytka flower_01 – posun výše na mobilu */
+    .elementor-element-a753450 {
+        top: 320px !important;
+    }
 }
 </style>' . "\n";
 }
