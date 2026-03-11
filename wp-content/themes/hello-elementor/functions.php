@@ -346,6 +346,11 @@ body { overflow-x: hidden; max-width: 100%; }
         font-size: clamp(1.2rem, 6vw, 2rem) !important;
     }
 }
+
+/* Skrýt sekci "Dokonalá oáza klidu a zeleně" na mobilu */
+@media (max-width: 767px) {
+    .elementor-element-2f90cc7 { display: none !important; }
+}
 </style>' . "\n";
 }
 add_action('wp_head', 'apartmany_mobile_fix', 5);
