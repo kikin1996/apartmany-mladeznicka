@@ -290,6 +290,11 @@ function apartmany_mobile_fix() {
 html { overflow-x: hidden; }
 body { overflow-x: hidden; }
 
+/* Skrýt prázdný obdélník d843ff2 pod fotkou při šířce < 1498px */
+@media (max-width: 1498px) {
+    .elementor-element-d843ff2 { display: none !important; }
+}
+
 @media (max-width: 767px) {
     /* Kontejnery nepřesahují viewport pouze na mobilu */
     .elementor-section,
