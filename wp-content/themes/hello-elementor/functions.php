@@ -290,10 +290,24 @@ function apartmany_mobile_fix() {
 html { overflow-x: hidden; }
 body { overflow-x: hidden; }
 
+/* Hlavní strana – hero fotka s lidmi: posunout dolů aby byli lidé lépe vidět */
+.elementor-element-d359096 {
+    background-position: center 30% !important;
+}
+
+/* Footer fotka – poměr stran odpovídající fotce IMG_3759.webp (1920×1440 = 4:3) */
+.elementor-element-73f5363 .elementor-cta {
+    aspect-ratio: 4/3;
+    min-height: 0 !important;
+}
+
 /* Skrýt prázdný obdélník d843ff2 pod fotkou při šířce < 1498px */
 @media (max-width: 1498px) {
     .elementor-element-d843ff2 { display: none !important; }
 }
+
+/* Skrýt sekci s obrázkem budovy, ceníkem a kytkou na stránce výběr bytu */
+.elementor-element-98f458a { display: none !important; }
 
 @media (max-width: 767px) {
     /* Kontejnery nepřesahují viewport pouze na mobilu */
@@ -340,7 +354,105 @@ body { overflow-x: hidden; }
 }
 </style>' . "\n";
 }
-add_action('wp_head', 'apartmany_mobile_fix', 5);
+add_action('wp_head', 'apartmany_mobile_fix', 999);
+
+// ── Nadpisy nad tabulkami bytů na stránkách pater ───────────────────────────
+function apartmany_floor_headings() {
+    $map = [
+        902 => ['label' => '1. Patro', 'container' => '53e8878'],
+        906 => ['label' => '2. Patro', 'container' => '82a32b8'],
+        908 => ['label' => '3. Patro', 'container' => 'fa3739e'],
+    ];
+    $pid = get_the_ID();
+    if (!isset($map[$pid])) return;
+    $label     = esc_js($map[$pid]['label']);
+    $container = esc_js($map[$pid]['container']);
+    ?>
+<style>
+.am-floor-heading {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 48px 0 16px;
+    font-family: 'Playfair Display', Georgia, serif;
+}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var el = document.querySelector('.elementor-element-<?php echo esc_js($map[$pid]['container']); ?>');
+    if (el) {
+        var h = document.createElement('h2');
+        h.className = 'am-floor-heading';
+        h.textContent = '<?php echo esc_js($map[$pid]['label']); ?>';
+        el.parentNode.insertBefore(h, el);
+    }
+});
+</script>
+    <?php
+}
+add_action('wp_head', 'apartmany_floor_headings', 999);
+
+// ── Nadpisy s šipkou nad tabulkami na stránce ceníku ─────────────────────────
+function apartmany_cenik_headings() {
+    if (!is_page(232)) return;
+    ?>
+<style>
+.am-cenik-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 56px 0 20px;
+    font-family: 'Playfair Display', Georgia, serif;
+}
+.am-cenik-heading a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    background: #92B675;
+    border-radius: 50%;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+.am-cenik-heading a:hover { background: #7a9e60; }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var tables = [
+        { id: '1b1f003', label: '1. Patro', href: '/1-patro/' },
+        { id: '3249c17', label: '2. Patro', href: '/2-patro/' },
+        { id: '8fd1554', label: '3. Patro', href: '/3-patro/' },
+    ];
+    tables.forEach(function(t) {
+        var el = document.querySelector('.elementor-element-' + t.id);
+        if (!el) return;
+        var wrap = document.createElement('div');
+        wrap.className = 'am-cenik-heading';
+        wrap.innerHTML = t.label + '<a href="' + t.href + '" title="Přejít na ' + t.label + '">&#8594;</a>';
+        el.parentNode.insertBefore(wrap, el);
+    });
+
+    // Nadpis nad fotkou budovy
+    var budovaEl = document.querySelector('.elementor-element-c38c8ef');
+    if (budovaEl) {
+        var budovaHeading = document.createElement('div');
+        budovaHeading.className = 'am-cenik-heading';
+        budovaHeading.style.marginTop = '0';
+        budovaHeading.textContent = 'Vyberte si patro:';
+        budovaEl.parentNode.insertBefore(budovaHeading, budovaEl);
+    }
+});
+</script>
+    <?php
+}
+add_action('wp_head', 'apartmany_cenik_headings', 999);
 
 // ── Šipky pro Swiper carousely na mobilu ────────────────────────────────────
 function apartmany_carousel_arrows() {
