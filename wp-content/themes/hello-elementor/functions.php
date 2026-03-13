@@ -301,6 +301,20 @@ body { overflow-x: hidden; }
     min-height: 0 !important;
 }
 
+/* Hero – nadpis a tlačítko "Vyberte si svůj byt" */
+.elementor-element-427523a .elementor-heading-title {
+    color: #92b676 !important;
+}
+.elementor-element-a4301a1 .elementor-button {
+    background-color: #92b676 !important;
+    color: #ffffff !important;
+    border-color: #92b676 !important;
+}
+.elementor-element-a4301a1 .elementor-button:hover {
+    background-color: #7a9e60 !important;
+    border-color: #7a9e60 !important;
+}
+
 /* Skrýt prázdný obdélník d843ff2 pod fotkou při šířce < 1498px */
 @media (max-width: 1498px) {
     .elementor-element-d843ff2 { display: none !important; }
