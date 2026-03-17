@@ -490,9 +490,9 @@ function apartmany_karta_lightbox() {
     border-radius: 12px;
     overflow: hidden;
     display: flex;
-    width: 92vw;
-    max-width: 1200px;
-    height: 88vh;
+    width: 96vw;
+    max-width: 1600px;
+    height: 92vh;
     box-shadow: 0 24px 80px rgba(0,0,0,0.4);
     position: relative;
 }
@@ -592,8 +592,9 @@ var amCurrentPdfUrl = '';
 function amOpenPdf(url) {
     amCurrentPdfUrl = url;
     document.getElementById('am-pdf-frame').src = url;
-    document.getElementById('am-pdf-download').href = url;
-    document.getElementById('am-pdf-download').setAttribute('download', url.split('/').pop());
+    var base = window.location.origin;
+    document.getElementById('am-pdf-download').href = base + '/?am_karta=download&url=' + encodeURIComponent(url);
+    document.getElementById('am-pdf-download').setAttribute('download', '');
     document.getElementById('am-pdf-overlay').classList.add('am-open');
     document.body.style.overflow = 'hidden';
 }
@@ -605,13 +606,8 @@ function amClosePdf() {
 }
 
 function amPrintPdf() {
-    var frame = document.getElementById('am-pdf-frame');
-    try {
-        frame.contentWindow.focus();
-        frame.contentWindow.print();
-    } catch(e) {
-        window.open(amCurrentPdfUrl, '_blank');
-    }
+    var base = window.location.origin;
+    window.open(base + '/?am_karta=print&url=' + encodeURIComponent(amCurrentPdfUrl), '_blank');
 }
 
 // Zavřít kliknutím na pozadí
@@ -640,6 +636,55 @@ document.addEventListener('DOMContentLoaded', function() {
     <?php
 }
 add_action('wp_footer', 'apartmany_karta_lightbox', 999);
+
+// ── Proxy pro stažení a tisk PDF karet k bytu ────────────────────────────────
+function apartmany_karta_proxy() {
+    $action = $_GET['am_karta'] ?? '';
+    if (!$action) return;
+
+    $url = $_GET['url'] ?? '';
+    // Povolené URL - pouze naše PDF karty
+    if (!preg_match('#^https?://[^/]*/(wp-content/uploads/byty/karty/Mladeznicka[ %0-9]+\.pdf)$#i', $url, $m)) {
+        wp_die('Nepovolená URL');
+    }
+
+    $response = wp_remote_get($url, ['sslverify' => false, 'timeout' => 15]);
+    if (is_wp_error($response)) {
+        wp_die('PDF se nepodařilo načíst: ' . $response->get_error_message());
+    }
+    $pdf = wp_remote_retrieve_body($response);
+
+    $filename = basename(urldecode($url));
+
+    if ($action === 'download') {
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Length: ' . strlen($pdf));
+        echo $pdf;
+        exit;
+    }
+
+    if ($action === 'print') {
+        $pdf_b64 = base64_encode($pdf);
+        header('Content-Type: text/html; charset=utf-8');
+        echo '<!DOCTYPE html><html><head><meta charset="utf-8">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+@page { size: A4 portrait; margin: 0; }
+html, body { width:100%; height:100%; }
+iframe { width:100%; height:100vh; border:none; display:block; }
+</style></head><body>
+<iframe src="data:application/pdf;base64,' . $pdf_b64 . '"></iframe>
+<script>
+window.addEventListener("load", function() {
+    setTimeout(function() { window.print(); }, 800);
+});
+</script>
+</body></html>';
+        exit;
+    }
+}
+add_action('init', 'apartmany_karta_proxy', 1);
 
 // ── Šipky pro Swiper carousely na mobilu ────────────────────────────────────
 function apartmany_carousel_arrows() {
