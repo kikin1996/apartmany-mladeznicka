@@ -468,6 +468,179 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 add_action('wp_head', 'apartmany_cenik_headings', 999);
 
+// ── PDF Lightbox pro Kartu bytu na stránce ceníku ────────────────────────────
+function apartmany_karta_lightbox() {
+    if (!is_page(232)) return;
+    ?>
+<style>
+#am-pdf-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,0.75);
+    align-items: center;
+    justify-content: center;
+}
+#am-pdf-overlay.am-open {
+    display: flex;
+}
+#am-pdf-box {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    width: 92vw;
+    max-width: 1200px;
+    height: 88vh;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+    position: relative;
+}
+#am-pdf-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    width: 36px;
+    height: 36px;
+    background: #363F2E;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#am-pdf-frame {
+    flex: 1;
+    border: none;
+    height: 100%;
+}
+#am-pdf-sidebar {
+    width: 200px;
+    flex-shrink: 0;
+    background: #f8f7ec;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 24px 16px;
+    border-left: 1px solid #e2e8d5;
+}
+#am-pdf-sidebar p {
+    font-size: 14px;
+    color: #363F2E;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 4px;
+}
+.am-pdf-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 16px 12px;
+    border-radius: 10px;
+    border: 2px solid #92b676;
+    background: #92b676;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+    line-height: 1.3;
+}
+.am-pdf-btn:hover {
+    background: #7a9e60;
+    border-color: #7a9e60;
+    color: #fff;
+}
+.am-pdf-btn svg {
+    width: 32px;
+    height: 32px;
+    fill: #fff;
+}
+</style>
+
+<div id="am-pdf-overlay">
+    <div id="am-pdf-box">
+        <button id="am-pdf-close" onclick="amClosePdf()" title="Zavřít">&#x2715;</button>
+        <iframe id="am-pdf-frame" src=""></iframe>
+        <div id="am-pdf-sidebar">
+            <a id="am-pdf-print" class="am-pdf-btn" href="#" onclick="amPrintPdf();return false;">
+                <svg viewBox="0 0 24 24"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+                Vytisknout<br>kartu k bytu
+            </a>
+            <a id="am-pdf-download" class="am-pdf-btn" href="#" download>
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+                Stáhnout<br>kartu k bytu
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+var amCurrentPdfUrl = '';
+
+function amOpenPdf(url) {
+    amCurrentPdfUrl = url;
+    document.getElementById('am-pdf-frame').src = url;
+    document.getElementById('am-pdf-download').href = url;
+    document.getElementById('am-pdf-download').setAttribute('download', url.split('/').pop());
+    document.getElementById('am-pdf-overlay').classList.add('am-open');
+    document.body.style.overflow = 'hidden';
+}
+
+function amClosePdf() {
+    document.getElementById('am-pdf-overlay').classList.remove('am-open');
+    document.getElementById('am-pdf-frame').src = '';
+    document.body.style.overflow = '';
+}
+
+function amPrintPdf() {
+    var frame = document.getElementById('am-pdf-frame');
+    try {
+        frame.contentWindow.focus();
+        frame.contentWindow.print();
+    } catch(e) {
+        window.open(amCurrentPdfUrl, '_blank');
+    }
+}
+
+// Zavřít kliknutím na pozadí
+document.getElementById('am-pdf-overlay').addEventListener('click', function(e) {
+    if (e.target === this) amClosePdf();
+});
+
+// Zavřít Escape klávesou
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') amClosePdf();
+});
+
+// Zachytit kliknutí na Karta bytu linky
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.eael-data-table-wrap a').forEach(function(a) {
+        var href = a.getAttribute('href') || '';
+        if (href.indexOf('/byty/karty/') !== -1 && href.indexOf('.pdf') !== -1) {
+            a.addEventListener('click', function(e) {
+                e.preventDefault();
+                amOpenPdf(href);
+            });
+        }
+    });
+});
+</script>
+    <?php
+}
+add_action('wp_footer', 'apartmany_karta_lightbox', 999);
+
 // ── Šipky pro Swiper carousely na mobilu ────────────────────────────────────
 function apartmany_carousel_arrows() {
     if (!is_front_page() && !is_home()) return;
