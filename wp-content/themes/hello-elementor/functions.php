@@ -468,9 +468,9 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 add_action('wp_head', 'apartmany_cenik_headings', 999);
 
-// ── PDF Lightbox pro Kartu bytu na stránce ceníku ────────────────────────────
+// ── PDF Lightbox pro Kartu bytu na stránce ceníku a stránkách pater ─────────
 function apartmany_karta_lightbox() {
-    if (!is_page(232)) return;
+    if (!is_page([232, 902, 906, 908])) return;
     ?>
 <style>
 #am-pdf-overlay {
@@ -620,7 +620,7 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') amClosePdf();
 });
 
-// Zachytit kliknutí na Karta bytu linky
+// Zachytit kliknutí na Karta bytu linky (ceník tabulka + floor pages info panel)
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.eael-data-table-wrap a').forEach(function(a) {
         var href = a.getAttribute('href') || '';
@@ -631,6 +631,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     });
+});
+// Event delegation pro dynamicky generovaný #byty-info-pdf (stránky pater)
+document.addEventListener('click', function(e) {
+    var a = e.target.closest('#byty-info-pdf');
+    if (a) {
+        var href = a.getAttribute('href') || '';
+        if (href && href !== '#') {
+            e.preventDefault();
+            amOpenPdf(href);
+        }
+    }
 });
 </script>
     <?php

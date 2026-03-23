@@ -252,8 +252,8 @@ $exterior = [
     <!-- Filter buttons -->
     <div class="gal-filters">
       <button class="gal-filter-btn active" data-filter="all"      onclick="setFilter('all')">Vše</button>
-      <button class="gal-filter-btn"        data-filter="interior" onclick="setFilter('interior')">Interiér</button>
-      <button class="gal-filter-btn"        data-filter="exterior" onclick="setFilter('exterior')">Exteriér</button>
+      <button class="gal-filter-btn"        data-filter="interior" onclick="setFilter('interior')">Interiér - skutečný stav</button>
+      <button class="gal-filter-btn"        data-filter="exterior" onclick="setFilter('exterior')">Exteriér - skutečný stav</button>
     </div>
 
     <!-- Photo grid -->
