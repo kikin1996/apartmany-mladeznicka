@@ -71,8 +71,8 @@
 
         hotspotWidget.closest('.elementor-widget-ucaddon_hotspot').closest('.e-con, .elementor-section').after(html);
 
-        $('#byty-nav-prev').on('click', function() { showPhoto(currentIndex - 1); });
-        $('#byty-nav-next').on('click', function() { showPhoto(currentIndex + 1); });
+        $('#byty-nav-prev').on('click', function(e) { e.stopPropagation(); showPhoto(currentIndex - 1); });
+        $('#byty-nav-next').on('click', function(e) { e.stopPropagation(); showPhoto(currentIndex + 1); });
 
         // Lightbox pro foto a půdorys
         var lbPhotos = [], lbIdx = 0, lbPudorys = false;
