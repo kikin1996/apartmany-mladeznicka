@@ -31,15 +31,21 @@
         if ($('#byty-inline-section').length) return;
 
         var html = `
+            <div id="byty-lb-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.92);align-items:center;justify-content:center;cursor:zoom-out;">
+              <button id="byty-lb-close" style="position:absolute;top:16px;right:20px;background:#363F2E;color:#fff;border:none;border-radius:50%;width:38px;height:38px;font-size:22px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center;">&#x2715;</button>
+              <button id="byty-lb-prev" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:28px;cursor:pointer;display:none;">&#8249;</button>
+              <img id="byty-lb-img" src="" style="max-width:94vw;max-height:92vh;object-fit:contain;border-radius:4px;display:block;">
+              <button id="byty-lb-next" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.15);color:#fff;border:none;border-radius:50%;width:48px;height:48px;font-size:28px;cursor:pointer;display:none;">&#8250;</button>
+            </div>
             <div id="byty-inline-section">
               <div id="byty-inline-pudorys">
                 <div class="byty-col-label">Půdorys bytu</div>
-                <div id="byty-pudorys-wrap">
+                <div id="byty-pudorys-wrap" style="cursor:zoom-in;">
                   <img id="byty-pudorys-img" src="" alt="Půdorys">
                 </div>
               </div>
               <div id="byty-inline-gallery">
-                <div id="byty-gallery-main">
+                <div id="byty-gallery-main" style="cursor:zoom-in;">
                   <img id="byty-main-img" src="" alt="">
                   <button class="byty-gallery-nav" id="byty-nav-prev">&#8249;</button>
                   <button class="byty-gallery-nav" id="byty-nav-next">&#8250;</button>
@@ -67,6 +73,48 @@
 
         $('#byty-nav-prev').on('click', function() { showPhoto(currentIndex - 1); });
         $('#byty-nav-next').on('click', function() { showPhoto(currentIndex + 1); });
+
+        // Lightbox pro foto a půdorys
+        var lbPhotos = [], lbIdx = 0, lbPudorys = false;
+        function lbOpen(photos, idx) {
+            lbPhotos = photos; lbIdx = idx; lbPudorys = false;
+            lbUpdate();
+            $('#byty-lb-overlay').css('display','flex');
+            $('body').css('overflow','hidden');
+        }
+        function lbOpenPudorys(src) {
+            lbPhotos = [src]; lbIdx = 0; lbPudorys = true;
+            lbUpdate();
+            $('#byty-lb-overlay').css('display','flex');
+            $('body').css('overflow','hidden');
+        }
+        function lbUpdate() {
+            $('#byty-lb-img').attr('src', lbPhotos[lbIdx]);
+            $('#byty-lb-prev').toggle(!lbPudorys && lbIdx > 0);
+            $('#byty-lb-next').toggle(!lbPudorys && lbIdx < lbPhotos.length - 1);
+        }
+        function lbClose() {
+            $('#byty-lb-overlay').css('display','none');
+            $('#byty-lb-img').attr('src','');
+            $('body').css('overflow','');
+        }
+        $('#byty-lb-close').on('click', lbClose);
+        $('#byty-lb-overlay').on('click', function(e) { if (e.target === this) lbClose(); });
+        $('#byty-lb-prev').on('click', function(e) { e.stopPropagation(); lbIdx--; lbUpdate(); });
+        $('#byty-lb-next').on('click', function(e) { e.stopPropagation(); lbIdx++; lbUpdate(); });
+        $(document).on('keydown.bytylb', function(e) {
+            if ($('#byty-lb-overlay').css('display') === 'none') return;
+            if (e.key === 'Escape') lbClose();
+            if (e.key === 'ArrowLeft' && !lbPudorys)  { lbIdx = Math.max(0, lbIdx-1); lbUpdate(); }
+            if (e.key === 'ArrowRight' && !lbPudorys) { lbIdx = Math.min(lbPhotos.length-1, lbIdx+1); lbUpdate(); }
+        });
+        $('#byty-gallery-main').on('click', function() {
+            if (currentPhotos.length) lbOpen(currentPhotos, currentIndex);
+        });
+        $('#byty-pudorys-wrap').on('click', function() {
+            var src = $('#byty-pudorys-img').attr('src');
+            if (src) lbOpenPudorys(src);
+        });
 
         // Klávesnice
         $(document).on('keydown', function(e) {

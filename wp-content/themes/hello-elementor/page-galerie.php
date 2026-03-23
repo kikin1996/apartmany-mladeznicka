@@ -215,17 +215,31 @@ $uploads = home_url('/wp-content/uploads/2025/03/');
 
 <?php
 // Build image data
-$interior = [
+$interior_base = home_url('/wp-content/uploads/byty/vyber/');
+$interior = array_map(function($f) use ($interior_base) { return $interior_base . $f; }, [
+    'IMG_3853.webp','IMG_3854.webp','IMG_3857.webp','IMG_3864.webp','IMG_3865.webp',
+    'IMG_3890.webp','IMG_3919.webp','IMG_3935.webp','IMG_3937.webp','IMG_3938.webp',
+    'IMG_3943.webp','IMG_3944.webp','IMG_3947.webp','IMG_3960.webp','IMG_3961.webp'
+]);
+$exterior_base = home_url('/wp-content/uploads/byty/venek/');
+$exterior = array_map(function($f) use ($exterior_base) { return $exterior_base . $f; }, [
+    'IMG_3725.webp','IMG_3737.webp','IMG_3738.webp','IMG_3739.webp',
+    'IMG_3759.webp','IMG_3762.webp','IMG_3788.webp','IMG_3794.webp',
+    'IMG_3809.webp','IMG_3810.webp'
+]);
+$vizualizace_base = home_url('/wp-content/uploads/2025/03/');
+$vizualizace = array_map(function($f) use ($vizualizace_base) { return $vizualizace_base . $f; }, [
     '40000-9-scaled.jpg','30000-11-scaled.jpg','02-4-scaled.jpg','70000-2-scaled.jpg',
     'bbb2.jpg','20000-8-scaled.jpg','50000-8-scaled.jpg','60000-4-scaled.jpg',
     '80000-2-scaled.jpg','10000-8-scaled.jpg','bbb9.jpg','B1-scaled.jpg',
-    'bbb.jpg','B3-scaled.jpg','bbb8-6.jpg','B2-scaled.jpg','B4-scaled.jpg',
+    'bbb.jpg','B3-scaled.jpg','B2-scaled.jpg','B4-scaled.jpg',
     '003-scaled.jpg','002-2-scaled.jpg','001-2-scaled.jpg','01-5-scaled.jpg'
-];
-$exterior = [
-    'bbb3.jpg','B2-2-1-scaled.jpg','bbb4.jpg','B3-2-2-scaled.jpg',
-    'bbb7.jpg','B1-2-1-scaled.jpg','bbb5.jpg','B4-2-1-scaled.jpg'
-];
+]);
+$chodba_base = home_url('/wp-content/uploads/byty/chodba/');
+$chodba = array_map(function($f) use ($chodba_base) { return $chodba_base . $f; }, [
+    'IMG_3717.webp','IMG_3718.webp','IMG_3768.webp','IMG_3769.webp',
+    'IMG_3770.webp','IMG_3933.webp','IMG_3934.webp'
+]);
 ?>
 
 <div id="gal-app">
@@ -251,9 +265,11 @@ $exterior = [
 
     <!-- Filter buttons -->
     <div class="gal-filters">
-      <button class="gal-filter-btn active" data-filter="all"      onclick="setFilter('all')">Vše</button>
-      <button class="gal-filter-btn"        data-filter="interior" onclick="setFilter('interior')">Interiér - skutečný stav</button>
-      <button class="gal-filter-btn"        data-filter="exterior" onclick="setFilter('exterior')">Exteriér - skutečný stav</button>
+      <button class="gal-filter-btn active" data-filter="all"          onclick="setFilter('all')">Vše</button>
+      <button class="gal-filter-btn"        data-filter="interior"     onclick="setFilter('interior')">Interiér - skutečný stav</button>
+      <button class="gal-filter-btn"        data-filter="exterior"     onclick="setFilter('exterior')">Exteriér - skutečný stav</button>
+      <button class="gal-filter-btn"        data-filter="vizualizace"  onclick="setFilter('vizualizace')">Vizualizace</button>
+      <button class="gal-filter-btn"        data-filter="chodba"       onclick="setFilter('chodba')">Chodba</button>
     </div>
 
     <!-- Photo grid -->
@@ -278,8 +294,10 @@ $exterior = [
   var BASE = '<?php echo $uploads; ?>';
 
   var IMAGES = {
-    interior: <?php echo json_encode(array_values($interior)); ?>,
-    exterior: <?php echo json_encode(array_values($exterior)); ?>
+    interior:    <?php echo json_encode(array_values($interior)); ?>,
+    exterior:    <?php echo json_encode(array_values($exterior)); ?>,
+    vizualizace: <?php echo json_encode(array_values($vizualizace)); ?>,
+    chodba:      <?php echo json_encode(array_values($chodba)); ?>
   };
 
   var currentFilter = 'all';
@@ -299,8 +317,10 @@ $exterior = [
     lbEl.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
+  function imgSrc(f) { return (f.indexOf('://') !== -1 || f.charAt(0) === '/') ? f : BASE + f; }
+
   function updateLb() {
-    lbImg.src = BASE + currentImages[lbIdx];
+    lbImg.src = imgSrc(currentImages[lbIdx]);
     lbCnt.textContent = (lbIdx + 1) + ' / ' + currentImages.length;
     lbP.style.display = lbIdx > 0 ? '' : 'none';
     lbN.style.display = lbIdx < currentImages.length - 1 ? '' : 'none';
@@ -316,9 +336,11 @@ $exterior = [
 
   /* ── Render grid ──────────────────────────── */
   function getFilteredImages() {
-    if (currentFilter === 'interior') return IMAGES.interior;
-    if (currentFilter === 'exterior') return IMAGES.exterior;
-    return IMAGES.interior.concat(IMAGES.exterior);
+    if (currentFilter === 'interior')    return IMAGES.interior;
+    if (currentFilter === 'exterior')    return IMAGES.exterior;
+    if (currentFilter === 'vizualizace') return IMAGES.vizualizace;
+    if (currentFilter === 'chodba')      return IMAGES.chodba;
+    return IMAGES.interior.concat(IMAGES.exterior).concat(IMAGES.vizualizace).concat(IMAGES.chodba);
   }
 
   function renderGrid() {
@@ -333,7 +355,7 @@ $exterior = [
       var btn = document.createElement('button');
       btn.className = 'gal-item';
       var img = document.createElement('img');
-      img.src = BASE + file;
+      img.src = imgSrc(file);
       img.alt = 'Fotografie ' + (i + 1);
       img.loading = 'lazy';
       btn.appendChild(img);

@@ -606,8 +606,15 @@ function amClosePdf() {
 }
 
 function amPrintPdf() {
-    var base = window.location.origin;
-    window.open(base + '/?am_karta=print&url=' + encodeURIComponent(amCurrentPdfUrl), '_blank');
+    var frame = document.getElementById('am-pdf-frame');
+    if (frame && frame.contentWindow) {
+        try {
+            frame.contentWindow.print();
+        } catch(e) {
+            // fallback: open PDF in new tab for printing
+            window.open(amCurrentPdfUrl, '_blank');
+        }
+    }
 }
 
 // Zavřít kliknutím na pozadí
@@ -654,6 +661,10 @@ function apartmany_karta_proxy() {
     if (!$action) return;
 
     $url = $_GET['url'] ?? '';
+    // Převést relativní URL na absolutní
+    if ($url && $url[0] === '/') {
+        $url = home_url($url);
+    }
     // Povolené URL - pouze naše PDF karty
     if (!preg_match('#^https?://[^/]*/(wp-content/uploads/byty/karty/Mladeznicka[ %0-9]+\.pdf)$#i', $url, $m)) {
         wp_die('Nepovolená URL');
@@ -685,11 +696,19 @@ function apartmany_karta_proxy() {
 html, body { width:100%; height:100%; }
 iframe { width:100%; height:100vh; border:none; display:block; }
 </style></head><body>
-<iframe src="data:application/pdf;base64,' . $pdf_b64 . '"></iframe>
+<iframe id="pdfFrame"></iframe>
 <script>
-window.addEventListener("load", function() {
-    setTimeout(function() { window.print(); }, 800);
-});
+var b64 = "' . $pdf_b64 . '";
+var binary = atob(b64);
+var bytes = new Uint8Array(binary.length);
+for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+var blob = new Blob([bytes], {type: "application/pdf"});
+var blobUrl = URL.createObjectURL(blob);
+var frame = document.getElementById("pdfFrame");
+frame.src = blobUrl;
+frame.onload = function() {
+    setTimeout(function() { frame.contentWindow.print(); }, 800);
+};
 </script>
 </body></html>';
         exit;
