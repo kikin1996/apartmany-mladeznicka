@@ -915,3 +915,11 @@ function apartmany_seo_meta() {
     }
 }
 add_action('wp_head', 'apartmany_seo_meta', 1);
+
+// Footer foto - zaoblené rohy + menší velikost
+add_action('wp_head', function() { ?>
+<style>
+.elementor-element-e832d57 { max-width: 52%; margin-left: auto; }
+.elementor-element-e832d57 img { border-radius: 16px; width: 100%; height: auto; display: block; }
+</style>
+<?php }, 999);

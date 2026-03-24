@@ -46,6 +46,7 @@ $uploads = home_url('/wp-content/uploads/2025/03/');
 .gal-hero-img-wrap img {
     width: 100%; height: 100%;
     object-fit: cover;
+    object-position: center 70%;
     display: block;
     transition: transform .5s ease;
 }
@@ -219,13 +220,18 @@ $interior_base = home_url('/wp-content/uploads/byty/vyber/');
 $interior = array_map(function($f) use ($interior_base) { return $interior_base . $f; }, [
     'IMG_3853.webp','IMG_3854.webp','IMG_3857.webp','IMG_3864.webp','IMG_3865.webp',
     'IMG_3890.webp','IMG_3919.webp','IMG_3935.webp','IMG_3937.webp','IMG_3938.webp',
-    'IMG_3943.webp','IMG_3944.webp','IMG_3947.webp','IMG_3960.webp','IMG_3961.webp'
+    'IMG_3943.webp','IMG_3944.webp','IMG_3947.webp','IMG_3960.webp','IMG_3961.webp',
+    'P1793927.webp','P1793937.webp','P1793957.webp','P1793962.webp','P1793990.webp',
+    'P1793998.webp','P1794020.webp','P1794045.webp','P1794053.webp','P1794086.webp',
+    'P1794113.webp','P1794120.webp','P1794140.webp'
 ]);
 $exterior_base = home_url('/wp-content/uploads/byty/venek/');
 $exterior = array_map(function($f) use ($exterior_base) { return $exterior_base . $f; }, [
     'IMG_3725.webp','IMG_3737.webp','IMG_3738.webp','IMG_3739.webp',
     'IMG_3759.webp','IMG_3762.webp','IMG_3788.webp','IMG_3794.webp',
-    'IMG_3809.webp','IMG_3810.webp'
+    'IMG_3809.webp','IMG_3810.webp',
+    'DJI_0362.webp','DJI_0369.webp','DJI_0375.webp','DJI_0385.webp',
+    'P1793870.webp','P1793911.webp'
 ]);
 $vizualizace_base = home_url('/wp-content/uploads/2025/03/');
 $vizualizace = array_map(function($f) use ($vizualizace_base) { return $vizualizace_base . $f; }, [

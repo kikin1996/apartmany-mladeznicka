@@ -580,3 +580,16 @@ li {
   vertical-align: baseline;
   background: transparent;
 }
+
+/* Footer foto - zaoblené rohy + menší velikost */
+.elementor-element-e832d57 {
+  max-width: 75%;
+  margin-left: auto;
+}
+.elementor-element-e832d57 img {
+  border-radius: 16px;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+}
