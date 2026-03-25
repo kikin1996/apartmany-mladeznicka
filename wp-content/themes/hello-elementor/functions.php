@@ -921,5 +921,48 @@ add_action('wp_head', function() { ?>
 <style>
 .elementor-element-e832d57 { max-width: 52%; margin-left: auto; }
 .elementor-element-e832d57 img { border-radius: 16px; width: 100%; height: auto; display: block; }
+
+/* Projektant footer bar */
+#am-projektant-bar {
+    background: #2a2f22;
+    border-top: 1px solid #3d4535;
+    padding: 14px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: Montserrat, sans-serif;
+    font-size: 13px;
+    color: #a0a899;
+    line-height: 1.5;
+}
+#am-projektant-bar img {
+    height: 36px;
+    width: auto;
+    opacity: 0.85;
+    filter: brightness(0) invert(1);
+}
+#am-projektant-bar a { color: #a0a899; text-decoration: none; }
+#am-projektant-bar a:hover { color: #c8d1be; }
+#am-projektant-bar .am-proj-label {
+    color: #6b7560;
+    font-size: 11px;
+    margin-right: 4px;
+}
 </style>
 <?php }, 999);
+
+// Projektant bar ve footeru
+add_action('wp_footer', function() { ?>
+<div id="am-projektant-bar">
+    <img src="<?php echo esc_url(home_url('/wp-content/uploads/2026/03/zrobimek-logo-small.png')); ?>" alt="ZrobiM-ek s.r.o.">
+    <div>
+        <strong style="color:#c8d1be;">ZrobiM-ek s.r.o.</strong> &nbsp;|&nbsp;
+        Veřovice 694, 742 73 Veřovice &nbsp;|&nbsp;
+        <span class="am-proj-label">tel:</span><a href="tel:+420774415177">+420 774 415 177</a> &nbsp;|&nbsp;
+        <span class="am-proj-label">e-mail:</span><a href="mailto:kancelar@zrobimek.cz">kancelar@zrobimek.cz</a> &nbsp;|&nbsp;
+        <span class="am-proj-label">web:</span><a href="https://www.zrobimek.cz" target="_blank" rel="noopener">www.zrobimek.cz</a>
+    </div>
+</div>
+<?php }, 20);
