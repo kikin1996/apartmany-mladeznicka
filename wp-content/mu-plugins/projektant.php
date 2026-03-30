@@ -63,8 +63,9 @@ add_action('wp_head', function() { ?>
 }
 #am-projektant-kontakt a { color: #4a6640; text-decoration: none; }
 #am-projektant-kontakt a:hover { text-decoration: underline; }
-/* Skrýt starý tmavý bar pokud by zůstal */
+/* Skrýt starý tmavý bar a duplikáty */
 #am-projektant-bar { display: none !important; }
+#am-projektant-kontakt ~ #am-projektant-kontakt { display: none !important; }
 </style>
 <?php }, 999);
 
