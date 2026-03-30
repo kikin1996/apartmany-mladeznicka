@@ -808,8 +808,8 @@ add_action('wp_footer', 'apartmany_carousel_arrows');
 function byty_modal_enqueue() {
     $pages = ['1-patro', '2-patro', '3-patro'];
     if (is_page($pages)) {
-        wp_enqueue_style('byty-modal', get_template_directory_uri() . '/assets/byty-modal.css', [], '1.1');
-        wp_enqueue_script('byty-modal', get_template_directory_uri() . '/assets/byty-modal.js', ['jquery'], '1.1', true);
+        wp_enqueue_style('byty-modal', get_template_directory_uri() . '/assets/byty-modal.css', [], '1.2');
+        wp_enqueue_script('byty-modal', get_template_directory_uri() . '/assets/byty-modal.js', ['jquery'], '1.2', true);
     }
 }
 add_action('wp_enqueue_scripts', 'byty_modal_enqueue');
